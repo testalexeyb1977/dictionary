@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd">
+
+    <config name="installed_paths" value="vendor/slevomat/coding-standard,vendor/escapestudios/symfony2-coding-standard/Symfony"/>
+    <config name="show_warnings" value="0"/>
+
+    <file>bin/</file>
+    <file>config/</file>
+    <file>migrations/</file>
+    <file>public/</file>
+    <file>src/</file>
+    <file>tests/</file>
+
+    <exclude-pattern>bin/\.phpunit</exclude-pattern>
+
+    <arg name="basepath" value="."/>
+    <arg name="cache" value=".phpcs-cache"/>
+    <arg name="extensions" value="php"/>
+    <arg name="report" value="full"/>
+    <arg value="p"/>
+
+    <rule ref="Symfony">
+        <exclude name="Symfony.Commenting.License"/>
+    </rule>
+
+    <rule ref="Generic.Files.LineEndings">
+        <properties>
+            <property name="eolChar" value="\n"/>
+        </properties>
+    </rule>
+
+    <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses">
+        <properties>
+            <property name="searchAnnotations" value="1"/>
+        </properties>
+    </rule>
+
+    <!-- https://github.com/slevomat/coding-standard#slevomatcodingstandardnamespacesreferenceusednamesonly- -->
+    <rule ref="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly">
+        <properties>
+            <property name="searchAnnotations" value="1"/>
+        </properties>
+    </rule>
+
+    <rule ref="SlevomatCodingStandard.Namespaces.AlphabeticallySortedUses"/>
+
+    <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes">
+        <properties>
+            <property name="newlinesCountBetweenOpenTagAndDeclare" value="1"/>
+            <property name="spacesCountAroundEqualsSign" value="0"/>
+            <property name="newlinesCountAfterDeclare" value="2"/>
+        </properties>
+    </rule>
+
+</ruleset>
