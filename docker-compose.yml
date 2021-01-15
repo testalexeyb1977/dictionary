@@ -1,0 +1,42 @@
+version: '3.2'
+services:
+  nginx:
+    container_name: dictionary2_nginx
+    image: 'registry-gitlab.elt-poisk.com/docker/nginx-fpm:master'
+    restart: always
+    ports:
+      - '${NGINX_PORT}:80'
+    volumes:
+      - './:/var/www/html'
+      - './config/nginx/settings.conf:/etc/nginx/conf.d/settings.conf'
+    links:
+      - php
+  php:
+    container_name: dictionary2_php
+    build: './config/php'
+    env_file:
+      - ./.env
+      - ./.env.local
+    user: '${DOCKER_UID}'
+    restart: always
+    volumes:
+      - './:/var/www/html'
+      - './config/php/settings.ini:/usr/local/etc/php/conf.d/settings.ini'
+    links:
+      - redis
+  redis:
+    container_name: dictionary2_redis
+    image: 'registry-gitlab.elt-poisk.com/docker/redis:master'
+    privileged: true
+    restart: always
+  postgres:
+    container_name: dictionary2_postgres
+    image: 'postgres:10.10-alpine'
+    ports:
+      - '5433:5432'
+    volumes:
+      - ./var/postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: 'dev'
+      POSTGRES_USER: 'dev'
+      POSTGRES_PASSWORD: 'dev'
